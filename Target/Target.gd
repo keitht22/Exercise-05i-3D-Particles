@@ -14,7 +14,7 @@ func _physics_process(_delta):
 	if transform.origin.y >= y_range:
 		speed = abs(speed)*-1
 	if transform.origin.y <= -y_range:
-		speed = abs(speed)		
+		speed = abs(speed)
 
 
 func die():

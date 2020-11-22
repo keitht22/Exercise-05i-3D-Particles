@@ -1,6 +1,7 @@
 extends KinematicBody
 
 onready var Camera = $Pivot/Camera
+onready var Explosion = load("res://Explosion/Explosions.tscn")
 
 var gravity = -30
 var max_speed = 8
@@ -20,7 +21,13 @@ func _unhandled_input(event):
 
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("shoot"):
+		$Pivot/Laser.visible = true
+		$Pivot/Laser/CPUParticles.emitting = true
 		if $Pivot/RayCast.is_colliding():
 			var target = $Pivot/RayCast.get_collider()
 			if target.is_in_group("target"):
+				var explosion = Explosion.instance() 
+				explosion.global_transform.origin = $Pivot/RayCast.get_collision_point()
+				get_node("/root/Game/Explosions").add_child(explosion)
 				target.die()
+				$Pivot/Laser.visible = false
